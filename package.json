@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "build": "webpack -p",
-    "start": "webpack && qode ./dist/index.js",
+    "start": "webpack && qode ./dist/index.js && sh startLocalSnmpServer.sh",
     "debug": "webpack && qode --inspect ./dist/index.js"
   },
   "dependencies": {
