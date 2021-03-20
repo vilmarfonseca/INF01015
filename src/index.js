@@ -23,10 +23,16 @@ label2.setInlineStyle(`
   color: red;
 `);
 
-rootLayout.addWidget(label);
-rootLayout.addWidget(button);
-rootLayout.addWidget(label2);
-win.setCentralWidget(centralWidget);
-win.setStyleSheet(firstViewStyle);
-win.setMinimumSize(800,600)
-win.show();
+async function renderMainWidnow(){
+  rootLayout.addWidget(label);
+  rootLayout.addWidget(button);
+  rootLayout.addWidget(label2);
+  win.setCentralWidget(centralWidget);
+  // win.setStyleSheet(firstViewStyle);
+  // win.setMinimumSize(800,600)
+  win.show();
+
+  global.win = win;
+}
+
+renderMainWidnow();
