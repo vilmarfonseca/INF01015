@@ -1,7 +1,8 @@
 import { QMainWindow, QWidget, QLabel, FlexLayout, QPushButton, QIcon } from '@nodegui/nodegui';
 import logo from '../assets/logox200.png';
-import {firstViewStyle} from './styles/styleSheet';
+import { firstViewStyle } from './styles/styleSheet';
 
+//********* INIT - Declare Main Elements *********
 const win = new QMainWindow();
 win.setWindowTitle("Gerenciamento de Desempenho");
 
@@ -22,14 +23,15 @@ label2.setText("World");
 label2.setInlineStyle(`
   color: red;
 `);
+//********* END - Declare Main Elements *********
 
-async function renderMainWidnow(){
+async function renderMainWidnow() {
   rootLayout.addWidget(label);
   rootLayout.addWidget(button);
   rootLayout.addWidget(label2);
   win.setCentralWidget(centralWidget);
-  // win.setStyleSheet(firstViewStyle);
-  // win.setMinimumSize(800,600)
+  win.setStyleSheet(firstViewStyle);
+  win.setMinimumSize(800, 600)
   win.show();
 
   global.win = win;
