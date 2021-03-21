@@ -9,16 +9,6 @@ const table = {
         columns: [1, 2, 3, 4, 5, 6],
         storage: []
     },
-    // '1.3.6.1.2.1.25.5.1':{
-    //     name: 'hrSWRunPerfTable',
-    //     lastUpdatedAt: '',
-    //     oid: ['1.3.6.1.2.1.25.5.1'],
-    //     type: 'table',
-    //     runInterval: 3000,
-    //     interval: null,
-    //     columns: [1, 2],
-    //     storage: []
-    // },
     '1.3.6.1.2.1.2.2':{
         name: 'ifTable',
         lastUpdatedAt: '',
@@ -35,7 +25,7 @@ const table = {
         oid: ['1.3.6.1.2.1.25.3.3'],
         type: 'table',
         runInterval: 60000,
-        columns: [1, 2],
+        columns: [2],
         interval: null,
         storage: []
     },
@@ -48,15 +38,6 @@ const table = {
         interval: null,
         storage: []
     },
-    // '1.3.6.1.2.1.7.4.0': {
-    //     name: 'udpOutDatagrams',
-    //     oid: ['1.3.6.1.2.1.7.4.0'],
-    //     lastUpdatedAt: '',
-    //     type: 'object',
-    //     runInterval: 12000,
-    //     interval: null,
-    //     storage: []
-    // },
     '1.3.6.1.2.1.6.10.0': {
         name: 'tcpInSegs',
         lastUpdatedAt: '',
@@ -75,15 +56,6 @@ const table = {
         interval: null,
         storage: []
     },
-    // '1.3.6.1.2.1.4.9.0': {
-    //     name: 'ipInDelivers',
-    //     oid: ['1.3.6.1.2.1.4.9.0'],
-    //     lastUpdatedAt: '',
-    //     type: 'object',
-    //     runInterval: 18000,
-    //     interval: null,
-    //     storage: []
-    // },
     '1.3.6.1.2.1.4.10.0': {
         name: 'ipOutRequests',
         oid: ['1.3.6.1.2.1.4.10.0'],
@@ -109,13 +81,10 @@ const getByName = {
     hrMemorySize: table['1.3.6.1.2.1.25.2.2.0'],
     ifTable: table['1.3.6.1.2.1.2.2'],
     hrProcessorTable: table['1.3.6.1.2.1.25.3.3'],
-    udpOutDatagrams: table['1.3.6.1.2.1.7.4.0'],
     tcpInSegs: table['1.3.6.1.2.1.6.10.0'],
     tcpOutSegs: table['1.3.6.1.2.1.6.11.0'],
     ipInReceives: table['1.3.6.1.2.1.4.3.0'],
-    ipInDelivers: table['1.3.6.1.2.1.4.9.0'],
     ipOutRequests: table['1.3.6.1.2.1.4.10.0'],
-    hrSWRunPerfTable: table['1.3.6.1.2.1.25.5.1'],
 }
 
 module.exports = {

@@ -311,9 +311,17 @@ function getDownData() {
 }
 
 function getCPUData() {
-  let table = hash.getByName.hrProcessorTable;
+  let table = hash.getByName.hrProcessorTable.storage[1];
+  let acc;
 
-  console.log(table.storage);
+  if (table) {
+    acc = 0;
+    for (let i = 0; i < table[0].length; i++) {
+      acc += table[0][i].value;
+    }
+    return Math.round(acc / table[0].length);
+  }
+
 }
 
 function getTCPInData() {
@@ -425,14 +433,14 @@ function renderMainWidnow() {
       upBarValue.setText(getUpData() + '/s');
     }
 
-    getCPUData();
+    console.log(getCPUData(), 'CPU');
 
     if (getTCPInData()) {
       tcpInValue.setText(getTCPInData());
     }
 
     if (getTCPOutData()) {
-      tcpInValue.setText(getTCPOutData());
+      tcpOutValue.setText(getTCPOutData());
     }
 
     if (getIPInData()) {
@@ -440,7 +448,7 @@ function renderMainWidnow() {
     }
 
     if (getTCPOutData()) {
-      ipInValue.setText(getIPOutData());
+      ipOutValue.setText(getIPOutData());
     }
 
 
