@@ -8,7 +8,7 @@ import {
   QIcon
 } from '@nodegui/nodegui';
 import { firstViewStyle } from './styles/styleSheet';
-import { hash, startCore } from './core/core';
+import { hash } from './core/core';
 const { Worker } = require('worker_threads');
 
 //********* INIT - Declare Main Elements *********
@@ -35,11 +35,11 @@ availableMemValue.setInlineStyle("margin-left: 5px;")
 SystemMemRowLayout.addWidget(availableMemLabel);
 SystemMemRowLayout.addWidget(availableMemValue);
 
-//System HD Display
-const SystemHDRow = new QWidget();
-const SystemHDRowLayout = new FlexLayout();
-SystemHDRow.setObjectName('SystemHDRow');
-SystemHDRow.setLayout(SystemHDRowLayout);
+//System Used HD Display
+const SystemHDAvailableRow = new QWidget();
+const SystemHDAvailableRowLayout = new FlexLayout();
+SystemHDAvailableRow.setObjectName('SystemHDAvailableRow');
+SystemHDAvailableRow.setLayout(SystemHDAvailableRowLayout);
 
 const availableHDLabel = new QLabel();
 availableHDLabel.setObjectName("availableHDLabel");
@@ -51,8 +51,27 @@ availableHDValue.setObjectName("availableHDValue");
 availableHDValue.setText("Calculating...");
 availableHDValue.setInlineStyle("margin-left: 5px;")
 
-SystemHDRowLayout.addWidget(availableHDLabel);
-SystemHDRowLayout.addWidget(availableHDValue);
+SystemHDAvailableRowLayout.addWidget(availableHDLabel);
+SystemHDAvailableRowLayout.addWidget(availableHDValue);
+
+//System Used HD Display
+const SystemHDRow = new QWidget();
+const SystemHDRowLayout = new FlexLayout();
+SystemHDRow.setObjectName('SystemHDRow');
+SystemHDRow.setLayout(SystemHDRowLayout);
+
+const usedHDLabel = new QLabel();
+usedHDLabel.setObjectName("usedHDLabel");
+usedHDLabel.setText("Used HD Space: ");
+usedHDLabel.setInlineStyle("margin-right: 5px;")
+
+const usedHDValue = new QLabel();
+usedHDValue.setObjectName("usedHDValue");
+usedHDValue.setText("Calculating...");
+usedHDValue.setInlineStyle("margin-left: 5px;")
+
+SystemHDRowLayout.addWidget(usedHDLabel);
+SystemHDRowLayout.addWidget(usedHDValue);
 
 //CPU Data Display
 const CPUBarRow = new QWidget();
@@ -119,7 +138,7 @@ upBarLabel.setInlineStyle("margin-right: 5px;")
 
 const upBarValue = new QLabel();
 upBarValue.setObjectName("upBarValue");
-upBarValue.setText("120 KB/s");
+upBarValue.setText("Calculating...");
 upBarValue.setInlineStyle("margin-left: 5px;")
 
 upBarRowLayout.addWidget(upBarLabel);
@@ -138,7 +157,7 @@ downBarLabel.setInlineStyle("margin-right: 5px;")
 
 const downBarValue = new QLabel();
 downBarValue.setObjectName("downBarValue");
-downBarValue.setText("120 KB/s");
+downBarValue.setText("Calculating...");
 downBarValue.setInlineStyle("margin-left: 5px;")
 
 downBarRowLayout.addWidget(downBarLabel);
@@ -168,25 +187,79 @@ function formatBytes(bytes, decimals = 2) {
 }
 
 function getUpData() {
-  let table = hash.getByName.ifTable
+  let table = hash.getByName.ifTable.storage
 
-  // if(table.storage.length > 0){
-    // console.log(table.storage[0].length, 'tamanhoo');
-  // }
-  // if (table) {
-  //   let tableData = table.storage;
-  //   for (let j = 0; j < tableData; j++) {
-  //     let data = tableData[j];
-  //     if (data && data.length > 1) {
-  //       for (let i = 0; i < data.length; i++) {
-  //         if (data[i][0].value == 'en0') {
-  //           console.log(data[i][1].value, 'upload')
-  //         }
-  //       }
-  //     }
-  //   }
+  let reads = []
 
-  // }
+  if (table.length > 1) {
+    for (let j = 0; j < table.length; j++) {
+      let data = table[j];
+      if (data && data.length > 1) {
+        for (let i = 0; i < data.length; i++) {
+          if (data[i][0].value == 'en13') {
+            reads.push({
+              value: data[i][2].value,
+              timestamp: data[i][2].timestamp,
+              id: j
+            })
+          }
+        }
+      }
+    }
+
+    reads.sort(function (a, b) {
+      return a.id - b.id;
+    });
+
+    let speed = reads[reads.length - 1].value - reads[reads.length - 2].value;
+
+    let timeWindow = reads[reads.length - 1].timestamp - reads[reads.length - 2].timestamp;
+
+    timeWindow = timeWindow/1000;
+
+    if(speed > -1) {
+      return formatBytes(speed/timeWindow)
+    }
+  }
+}
+
+function getDownData() {
+  let table = hash.getByName.ifTable.storage
+
+  let reads = []
+
+  if (table.length > 1) {
+    for (let j = 0; j < table.length; j++) {
+      let data = table[j];
+      if (data && data.length > 1) {
+        for (let i = 0; i < data.length; i++) {
+          if (data[i][0].value == 'en13') {
+            reads.push({
+              value: data[i][1].value,
+              timestamp: data[i][1].timestamp,
+              id: j
+            })
+          }
+        }
+      }
+    }
+
+    reads.sort(function (a, b) {
+      return a.id - b.id;
+    });
+
+    console.log(reads)
+
+    let speed = reads[reads.length - 1].value - reads[reads.length - 2].value;
+
+    let timeWindow = reads[reads.length - 1].timestamp - reads[reads.length - 2].timestamp;
+
+    timeWindow = timeWindow/1000;
+
+    if(speed > -1) {
+      return formatBytes(speed/timeWindow)
+    }
+  }
 }
 
 function getCPUData() {
@@ -237,6 +310,7 @@ function getLastValuesDifference(array) {
 function renderMainWidnow() {
 
   rootLayout.addWidget(SystemMemRow);
+  rootLayout.addWidget(SystemHDAvailableRow);
   rootLayout.addWidget(SystemHDRow);
   rootLayout.addWidget(CPUBarRow);
   rootLayout.addWidget(MemBarRow);
@@ -260,16 +334,22 @@ function renderMainWidnow() {
       availableHDValue.setText(getHDTotalSize());
     }
 
-    getUpData();
-
-    let data = hash.getByName.tcpInSegs;
-    if (data && data.storage.length > 2) {
-      let valueToShow = getLastValuesDifference(data.storage)
-
-      if (valueToShow) {
-        upBarValue.setText(valueToShow);
-      }
+    if(getDownData()){
+      downBarValue.setText(getDownData() + '/s')
     }
+
+    if(getUpData()){
+      upBarValue.setText(getUpData() + '/s');
+    }
+
+    // let data = hash.getByName.tcpInSegs;
+    // if (data && data.storage.length > 2) {
+    //   let valueToShow = getLastValuesDifference(data.storage)
+
+    //   if (valueToShow) {
+    //     upBarValue.setText(valueToShow);
+    //   }
+    // }
 
   }, 3000)
 }

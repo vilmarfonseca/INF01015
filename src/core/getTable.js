@@ -37,7 +37,8 @@ async function getTable(oid) {
                     for (var j = 0; j < columns.length; j++) {
                         ins.push({
                             columns: columns[j],
-                            value: `${table[indexes[i]][columns[j]]}`
+                            value: `${table[indexes[i]][columns[j]]}`,
+                            timestamp: new Date()
                         })
                     }
                     values.push(ins);

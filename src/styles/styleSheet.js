@@ -7,6 +7,12 @@ let firstViewStyle =   `
 #SystemMemRow {
   flex-direction: 'row';
   margin-left: 10px;
+  margin-bottom: 5px;
+}
+#SystemHDAvailableRow {
+  flex-direction: 'row';
+  margin-left: 10px;
+  margin-bottom: 5px;
 }
 #SystemHDRow {
   flex-direction: 'row';
