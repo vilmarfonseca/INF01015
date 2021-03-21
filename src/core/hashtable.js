@@ -23,7 +23,7 @@ const table = {
         name: 'ifTable',
         lastUpdatedAt: '',
         oid: ['1.3.6.1.2.1.2.2'],
-        type: 'object',
+        type: 'table',
         runInterval: 3000,
         columns: [2, 10, 16],
         interval: null,
@@ -64,6 +64,33 @@ const table = {
         runInterval: 3000,
         interval: null,
         storage: []
+    },
+    '1.3.6.1.2.1.4.9.0': {
+        name: 'ipInDelivers',
+        oid: ['1.3.6.1.2.1.4.9.0'],
+        lastUpdatedAt: '',
+        type: 'object',
+        runInterval: 3000,
+        interval: null,
+        storage: []
+    },
+    '1.3.6.1.2.1.4.10.0': {
+        name: 'ipOutRequests',
+        oid: ['1.3.6.1.2.1.4.10.0'],
+        lastUpdatedAt: '',
+        type: 'object',
+        runInterval: 3000,
+        interval: null,
+        storage: []
+    },
+    '1.3.6.1.2.1.4.3.0': {
+        name: 'ipInReceives',
+        oid: ['1.3.6.1.2.1.4.3.0'],
+        lastUpdatedAt: '',
+        type: 'object',
+        runInterval: 3000,
+        interval: null,
+        storage: []
     }
 }
 
@@ -74,6 +101,9 @@ const getByName = {
     udpOutDatagrams: table['1.3.6.1.2.1.7.4.0'],
     tcpInSegs: table['1.3.6.1.2.1.6.10.0'],
     tcpOutSegs: table['1.3.6.1.2.1.6.11.0'],
+    ipInReceives: table['1.3.6.1.2.1.4.3.0'],
+    ipInDelivers: table['1.3.6.1.2.1.4.9.0'],
+    ipOutRequests: table['1.3.6.1.2.1.4.10.0'],
     hrSWRunPerfTable: table['1.3.6.1.2.1.25.5.1'],
 }
 
