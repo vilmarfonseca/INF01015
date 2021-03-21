@@ -3,6 +3,7 @@ const i = require('./snmpInitConfig');
 const hash = require('./hashtable');
 
 async function getValue(oids) {
+    console.log(`LOG - ${new Date().toLocaleTimeString()} [OBJECT] - ${oids[0]}`);
     return new Promise((resolve, reject) => {
         i.session.get(oids, function (error, varbinds) {
             if (error) {
@@ -12,7 +13,7 @@ async function getValue(oids) {
                 const values = [];
                 for (var i = 0; i < varbinds.length; i++) {
                     // for version 1 we can assume all OIDs were successful
-                    // console.log (varbinds[i].oid + "|" + varbinds[i].value);
+                    // console.log (varbinds[i].oid + " | " + varbinds[i].value);
 
                     hash.table[varbinds[i].oid].storage.push(varbinds[i].value);
                     hash.table[varbinds[i].oid].lastUpdatedAt = new Date();

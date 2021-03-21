@@ -1,7 +1,7 @@
 const i = require('./snmpInitConfig')
+const hash = require('./hashtable');
 
-const columns = [1, 2, 3, 4, 5 ,6];
-const maxRepetitions = 10;
+const maxRepetitions = 20;
 
 
 function sortInt (a, b) {
@@ -14,11 +14,12 @@ function sortInt (a, b) {
 }
 
 async function getTable(oid) {
+    console.log(`LOG - ${new Date().toLocaleTimeString()} [TABLE] - ${oid[0]}`);
     return new Promise((resolve, reject) => {
-        i.session.tableColumns(oid, columns, maxRepetitions, function (error, table) {
+        i.session.tableColumns(oid, hash.table[oid[0]].columns, maxRepetitions, function (error, table) {
             if (error) {
-                reject(error.toString());
                 console.error (error.toString ());
+                reject(error.toString());
             } else {
                 var indexes = [];
                 for (let index in table)
@@ -41,6 +42,9 @@ async function getTable(oid) {
                     }
                     values.push(ins);
                 }
+
+                hash.table[oid[0]].storage.push(values);
+                hash.table[oid[0]].lastUpdatedAt = new Date();
                 resolve(values);
             }
         });
