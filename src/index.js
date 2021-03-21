@@ -124,6 +124,25 @@ upBarValue.setInlineStyle("margin-left: 5px;")
 upBarRowLayout.addWidget(upBarLabel);
 upBarRowLayout.addWidget(upBarValue);
 
+//Download Data Display
+const downBarRow = new QWidget();
+const downBarRowLayout = new FlexLayout();
+downBarRow.setObjectName('downBarRow');
+downBarRow.setLayout(downBarRowLayout);
+
+const downBarLabel = new QLabel();
+downBarLabel.setObjectName("downBarlabel");
+downBarLabel.setText("Download");
+downBarLabel.setInlineStyle("margin-right: 5px;")
+
+const downBarValue = new QLabel();
+downBarValue.setObjectName("downBarValue");
+downBarValue.setText("120 KB/s");
+downBarValue.setInlineStyle("margin-left: 5px;")
+
+downBarRowLayout.addWidget(downBarLabel);
+downBarRowLayout.addWidget(downBarValue);
+
 //Root window style
 const centralWidget = new QWidget();
 centralWidget.setObjectName("myroot");
@@ -190,7 +209,8 @@ function renderMainWidnow() {
   rootLayout.addWidget(SystemHDRow);
   rootLayout.addWidget(CPUBarRow);
   rootLayout.addWidget(MemBarRow);
-  rootLayout.addWidget(upBarRow)
+  rootLayout.addWidget(upBarRow);
+  rootLayout.addWidget(downBarRow);
 
   win.setCentralWidget(centralWidget);
   win.setStyleSheet(firstViewStyle);

@@ -25,6 +25,11 @@ let firstViewStyle =   `
   flex-direction: 'row';
   margin-left: 10px;
   margin-top: 50px;
+}
+#downBarRow {
+  flex-direction: 'row';
+  margin-left: 10px;
+  margin-top: 5px;
 }`
 ;
 
