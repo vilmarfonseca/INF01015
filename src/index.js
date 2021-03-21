@@ -81,7 +81,7 @@ CPUBarRow.setLayout(CPUBarRowLayout);
 
 const CPUBarLabel = new QLabel();
 CPUBarLabel.setObjectName("CPUBarlabel");
-CPUBarLabel.setText("CPU");
+CPUBarLabel.setText("CPU Usage in Last Minute");
 CPUBarLabel.setInlineStyle("margin-right: 5px;")
 
 const CPUBar = new QProgressBar();
@@ -99,31 +99,81 @@ CPUBarRowLayout.addWidget(CPUBarLabel);
 CPUBarRowLayout.addWidget(CPUBar);
 CPUBarRowLayout.addWidget(CPUBarValue);
 
-//Memory Data Display
-const MemBarRow = new QWidget();
-const MemBarRowLayout = new FlexLayout();
-MemBarRow.setObjectName('MemBarRow');
-MemBarRow.setLayout(MemBarRowLayout);
+//TCP In Data Display
+const tcpInRow = new QWidget();
+const tcpInRowLayout = new FlexLayout();
+tcpInRow.setObjectName('tcpInRow');
+tcpInRow.setLayout(tcpInRowLayout);
 
-const MemBarLabel = new QLabel();
-MemBarLabel.setObjectName("MemBarlabel");
-MemBarLabel.setText("MEM");
-MemBarLabel.setInlineStyle("margin-right: 5px;")
+const tcpInLabel = new QLabel();
+tcpInLabel.setObjectName("tcpInlabel");
+tcpInLabel.setText("TCP Received Segments");
+tcpInLabel.setInlineStyle("margin-right: 5px;")
 
-const MemBar = new QProgressBar();
-MemBar.setMaximum(100)
-MemBar.setMinimum(0)
-MemBar.setValue(50)
-MemBar.isVisible(true)
+const tcpInValue = new QLabel();
+tcpInValue.setObjectName("tcpInValue");
+tcpInValue.setText("Calculating...");
+tcpInValue.setInlineStyle("margin-left: 5px;")
 
-const MemBarValue = new QLabel();
-MemBarValue.setObjectName("MemBarValue");
-MemBarValue.setText("24 %");
-MemBarValue.setInlineStyle("margin-left: 5px;")
+tcpInRowLayout.addWidget(tcpInLabel);
+tcpInRowLayout.addWidget(tcpInValue);
 
-MemBarRowLayout.addWidget(MemBarLabel);
-MemBarRowLayout.addWidget(MemBar);
-MemBarRowLayout.addWidget(MemBarValue);
+//TCP Out Data Display
+const tcpOutRow = new QWidget();
+const tcpOutRowLayout = new FlexLayout();
+tcpOutRow.setObjectName('tcpOutRow');
+tcpOutRow.setLayout(tcpOutRowLayout);
+
+const tcpOutLabel = new QLabel();
+tcpOutLabel.setObjectName("tcpOutlabel");
+tcpOutLabel.setText("TCP Sent Segments");
+tcpOutLabel.setInlineStyle("margin-right: 5px;")
+
+const tcpOutValue = new QLabel();
+tcpOutValue.setObjectName("tcpOutValue");
+tcpOutValue.setText("Calculating...");
+tcpOutValue.setInlineStyle("margin-left: 5px;")
+
+tcpOutRowLayout.addWidget(tcpOutLabel);
+tcpOutRowLayout.addWidget(tcpOutValue);
+
+//IP Out Data Display
+const ipInRow = new QWidget();
+const ipInRowLayout = new FlexLayout();
+ipInRow.setObjectName('ipInRow');
+ipInRow.setLayout(ipInRowLayout);
+
+const ipInLabel = new QLabel();
+ipInLabel.setObjectName("ipInlabel");
+ipInLabel.setText("IP Received Datagrams");
+ipInLabel.setInlineStyle("margin-right: 5px;")
+
+const ipInValue = new QLabel();
+ipInValue.setObjectName("ipInValue");
+ipInValue.setText("Calculating...");
+ipInValue.setInlineStyle("margin-left: 5px;")
+
+ipInRowLayout.addWidget(ipInLabel);
+ipInRowLayout.addWidget(ipInValue);
+
+//IP Out Data Display
+const ipOutRow = new QWidget();
+const ipOutRowLayout = new FlexLayout();
+ipOutRow.setObjectName('ipOutRow');
+ipOutRow.setLayout(ipOutRowLayout);
+
+const ipOutLabel = new QLabel();
+ipOutLabel.setObjectName("ipOutlabel");
+ipOutLabel.setText("IP Sent Datagrams");
+ipOutLabel.setInlineStyle("margin-right: 5px;")
+
+const ipOutValue = new QLabel();
+ipOutValue.setObjectName("ipOutValue");
+ipOutValue.setText("Calculating...");
+ipOutValue.setInlineStyle("margin-left: 5px;")
+
+ipOutRowLayout.addWidget(ipOutLabel);
+ipOutRowLayout.addWidget(ipOutValue);
 
 //Upload Data Display
 const upBarRow = new QWidget();
@@ -215,10 +265,10 @@ function getUpData() {
 
     let timeWindow = reads[reads.length - 1].timestamp - reads[reads.length - 2].timestamp;
 
-    timeWindow = timeWindow/1000;
+    timeWindow = timeWindow / 1000;
 
-    if(speed > -1) {
-      return formatBytes(speed/timeWindow)
+    if (speed > -1) {
+      return formatBytes(speed / timeWindow)
     }
   }
 }
@@ -248,16 +298,14 @@ function getDownData() {
       return a.id - b.id;
     });
 
-    console.log(reads)
-
     let speed = reads[reads.length - 1].value - reads[reads.length - 2].value;
 
     let timeWindow = reads[reads.length - 1].timestamp - reads[reads.length - 2].timestamp;
 
-    timeWindow = timeWindow/1000;
+    timeWindow = timeWindow / 1000;
 
-    if(speed > -1) {
-      return formatBytes(speed/timeWindow)
+    if (speed > -1) {
+      return formatBytes(speed / timeWindow)
     }
   }
 }
@@ -266,8 +314,48 @@ function getCPUData() {
   let table = hash.getByName.hrSWRunPerfTable;
 
   // if(table.storage.length > 1){
-  console.log(table.storage);
+  // console.log(table.storage, 'aqui');
   // }
+}
+
+function getTCPInData() {
+  let data = hash.getByName.tcpInSegs.storage;
+
+  data = data[data.length - 1];
+
+  if (data) {
+    return data;
+  }
+}
+
+function getTCPOutData() {
+  let data = hash.getByName.tcpOutSegs.storage;
+
+  data = data[data.length - 1];
+
+  if (data) {
+    return data;
+  }
+}
+
+function getIPInData() {
+  let data = hash.getByName.ipInReceives.storage;
+
+  data = data[data.length - 1];
+
+  if (data) {
+    return data;
+  }
+}
+
+function getIPOutData() {
+  let data = hash.getByName.ipOutRequests.storage;
+
+  data = data[data.length - 1];
+
+  if (data) {
+    return data;
+  }
 }
 
 function getHDTotalSize() {
@@ -301,25 +389,22 @@ function getPhysMemSize() {
   }
 }
 
-function getLastValuesDifference(array) {
-  let size = array.length
-
-  return array[size - 1] - array[size - 2];
-}
-
 function renderMainWidnow() {
 
   rootLayout.addWidget(SystemMemRow);
   rootLayout.addWidget(SystemHDAvailableRow);
   rootLayout.addWidget(SystemHDRow);
   rootLayout.addWidget(CPUBarRow);
-  rootLayout.addWidget(MemBarRow);
   rootLayout.addWidget(upBarRow);
   rootLayout.addWidget(downBarRow);
+  rootLayout.addWidget(tcpInRow);
+  rootLayout.addWidget(tcpOutRow);
+  rootLayout.addWidget(ipInRow);
+  rootLayout.addWidget(ipOutRow);
 
   win.setCentralWidget(centralWidget);
   win.setStyleSheet(firstViewStyle);
-  win.setMinimumSize(320, 450)
+  win.setMinimumSize(350, 450)
   win.show();
 
   global.win = win;
@@ -334,24 +419,34 @@ function renderMainWidnow() {
       availableHDValue.setText(getHDTotalSize());
     }
 
-    if(getDownData()){
+    if (getDownData()) {
       downBarValue.setText(getDownData() + '/s')
     }
 
-    if(getUpData()){
+    if (getUpData()) {
       upBarValue.setText(getUpData() + '/s');
     }
 
-    // let data = hash.getByName.tcpInSegs;
-    // if (data && data.storage.length > 2) {
-    //   let valueToShow = getLastValuesDifference(data.storage)
+    // getCPUData()
 
-    //   if (valueToShow) {
-    //     upBarValue.setText(valueToShow);
-    //   }
-    // }
+    if (getTCPInData()) {
+      tcpInValue.setText(getTCPInData());
+    }
 
-  }, 3000)
+    if (getTCPOutData()) {
+      tcpInValue.setText(getTCPOutData());
+    }
+
+    if (getIPInData()) {
+      ipInValue.setText(getIPInData());
+    }
+
+    if (getTCPOutData()) {
+      ipInValue.setText(getIPOutData());
+    }
+
+
+  }, 100)
 }
 
 //********* END - Declare Main Functions *********

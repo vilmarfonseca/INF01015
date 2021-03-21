@@ -36,7 +36,28 @@ let firstViewStyle =   `
   flex-direction: 'row';
   margin-left: 10px;
   margin-top: 5px;
-}`
+}
+#tcpInRow {
+  flex-direction: 'row';
+  margin-left: 10px;
+  margin-top: 25px;
+}
+#tcpOutRow {
+  flex-direction: 'row';
+  margin-left: 10px;
+  margin-top: 5px;
+}
+#ipInRow {
+  flex-direction: 'row';
+  margin-left: 10px;
+  margin-top: 10px;
+}
+#ipOutRow {
+  flex-direction: 'row';
+  margin-left: 10px;
+  margin-top: 5px;
+}
+`
 ;
 
 

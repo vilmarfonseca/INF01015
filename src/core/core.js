@@ -15,6 +15,8 @@ async function startCore() {
             hash.table[key].interval = setInterval((async () => {t.getTable(val.oid)}), val.runInterval);
         }
     });
+
+    console.log(hash.table);
 }
 
 
