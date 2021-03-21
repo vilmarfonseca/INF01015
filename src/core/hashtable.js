@@ -14,7 +14,7 @@ const table = {
         lastUpdatedAt: '',
         oid: ['1.3.6.1.2.1.25.5.1'],
         type: 'table',
-        runInterval: 120000,
+        runInterval: 3000,
         interval: null,
         columns: [1, 2],
         storage: []
@@ -24,7 +24,7 @@ const table = {
         lastUpdatedAt: '',
         oid: ['1.3.6.1.2.1.2.2'],
         type: 'table',
-        runInterval: 31000,
+        runInterval: 3000,
         columns: [2, 10, 16],
         interval: null,
         storage: []

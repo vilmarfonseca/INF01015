@@ -167,11 +167,33 @@ function formatBytes(bytes, decimals = 2) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
+function getUpData() {
+  let table = hash.getByName.ifTable
+
+  // if(table.storage.length > 0){
+    // console.log(table.storage[0].length, 'tamanhoo');
+  // }
+  // if (table) {
+  //   let tableData = table.storage;
+  //   for (let j = 0; j < tableData; j++) {
+  //     let data = tableData[j];
+  //     if (data && data.length > 1) {
+  //       for (let i = 0; i < data.length; i++) {
+  //         if (data[i][0].value == 'en0') {
+  //           console.log(data[i][1].value, 'upload')
+  //         }
+  //       }
+  //     }
+  //   }
+
+  // }
+}
+
 function getCPUData() {
   let table = hash.getByName.hrSWRunPerfTable;
 
   // if(table.storage.length > 1){
-    console.log(table.storage);
+  console.log(table.storage);
   // }
 }
 
@@ -188,8 +210,6 @@ function getHDTotalSize() {
     }
 
     totalSize = formatBytes(totalSize);
-
-    console.log(totalSize)
 
     if (totalSize) {
       return totalSize;
@@ -232,15 +252,15 @@ function renderMainWidnow() {
 
   setInterval(() => {
 
-    if(getPhysMemSize()){
+    if (getPhysMemSize()) {
       availableMemValue.setText(getPhysMemSize());
     }
 
-    if(getHDTotalSize()){
+    if (getHDTotalSize()) {
       availableHDValue.setText(getHDTotalSize());
     }
 
-    getCPUData();
+    getUpData();
 
     let data = hash.getByName.tcpInSegs;
     if (data && data.storage.length > 2) {
@@ -251,7 +271,7 @@ function renderMainWidnow() {
       }
     }
 
-  }, 5000)
+  }, 3000)
 }
 
 //********* END - Declare Main Functions *********
