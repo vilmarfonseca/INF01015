@@ -311,11 +311,9 @@ function getDownData() {
 }
 
 function getCPUData() {
-  let table = hash.getByName.hrSWRunPerfTable;
+  let table = hash.getByName.hrProcessorTable;
 
-  // if(table.storage.length > 1){
-  // console.log(table.storage, 'aqui');
-  // }
+  console.log(table.storage);
 }
 
 function getTCPInData() {
@@ -427,7 +425,7 @@ function renderMainWidnow() {
       upBarValue.setText(getUpData() + '/s');
     }
 
-    // getCPUData()
+    getCPUData();
 
     if (getTCPInData()) {
       tcpInValue.setText(getTCPInData());
