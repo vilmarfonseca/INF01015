@@ -3,7 +3,7 @@ const i = require('./snmpInitConfig');
 const hash = require('./hashtable');
 
 async function getValue(oids) {
-    // console.log(`LOG - ${new Date().toLocaleTimeString()} [OBJECT | ${hash.table[oids[0]].name}] - ${oids[0]}`);
+    console.log(`LOG - ${new Date().toLocaleTimeString()} [OBJECT | ${hash.table[oids[0]].name}] - ${oids[0]}`);
     return new Promise((resolve, reject) => {
         i.session.get(oids, function (error, varbinds) {
             if (error) {

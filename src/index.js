@@ -9,7 +9,7 @@ import {
 } from '@nodegui/nodegui';
 import { firstViewStyle } from './styles/styleSheet';
 import { hash, startCore } from './core/core';
-const { fork } = require('child_process');
+const { Worker } = require('worker_threads');
 
 //********* INIT - Declare Main Elements *********
 
@@ -232,8 +232,6 @@ function renderMainWidnow() {
 
   setInterval(() => {
 
-    child.send('START')
-
     if(getPhysMemSize()){
       availableMemValue.setText(getPhysMemSize());
     }
@@ -260,9 +258,4 @@ function renderMainWidnow() {
 
 renderMainWidnow();
 
-const child = fork('src/core/core.js');
-
-child.on('message', (message) => {
-  console.log('Returning /total results');
-  // console.log(message);
-});
+const child = new Worker('./src/core/core.js');

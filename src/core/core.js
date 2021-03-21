@@ -7,24 +7,18 @@ startCore();
 async function startCore() {
     Object.entries(hash.table).forEach(([key, val]) => {
         if (val.type === 'object') {
-            v.getValue(val.oid)
-            hash.table[key].interval = async () => { await v.getValue(val.oid) }
-
-        } 
-        else if (val.type === 'table') {
-            t.getTable(val.oid);
-            hash.table[key].interaval = async () => { await t.getTable(val.oid) }
+            setTimeout(() => {v.getValue(val.oid)}, Math.floor((Math.random() * 200) + 1));
+            hash.table[key].interaval = setInterval(
+                async () => { await v.getValue(val.oid) }, val.runInterval
+            )
+        } else if (val.type === 'table') {
+            setTimeout(() => {t.getTable(val.oid)}, Math.floor((Math.random() * 500) + 1));
+            hash.table[key].interaval = setInterval(
+                async () => { await t.getTable(val.oid) }, val.runInterval
+            )
         }
     });
 }
-
-process.on('message', (message) => {
-    if (message == 'START') {
-        console.log('Requesting Values to Snmp');
-        let slowResult = startCore();
-        process.send(hash.table);
-    }
-});
 
 module.exports = {
     startCore,
