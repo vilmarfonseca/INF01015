@@ -11,7 +11,7 @@ let firstViewStyle =   `
 #SystemHDRow {
   flex-direction: 'row';
   margin-left: 10px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 #CPUBarRow {
   flex-direction: 'row';
@@ -20,6 +20,11 @@ let firstViewStyle =   `
 #MemBarRow {
   flex-direction: 'row';
   margin-left: 10px;
+}
+#upBarRow {
+  flex-direction: 'row';
+  margin-left: 10px;
+  margin-top: 50px;
 }`
 ;
 

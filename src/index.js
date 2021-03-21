@@ -7,7 +7,6 @@ import {
   QProgressBar,
   QIcon 
 } from '@nodegui/nodegui';
-import logo from '../assets/logox200.png';
 import { firstViewStyle } from './styles/styleSheet';
 
 //********* INIT - Declare Main Elements *********
@@ -105,6 +104,25 @@ MemBarRowLayout.addWidget(MemBarLabel);
 MemBarRowLayout.addWidget(MemBar);
 MemBarRowLayout.addWidget(MemBarValue);
 
+//Upload Data Display
+const upBarRow = new QWidget();
+const upBarRowLayout = new FlexLayout();
+upBarRow.setObjectName('upBarRow');
+upBarRow.setLayout(upBarRowLayout);
+
+const upBarLabel = new QLabel();
+upBarLabel.setObjectName("upBarlabel");
+upBarLabel.setText("Upload");
+upBarLabel.setInlineStyle("margin-right: 5px;")
+
+const upBarValue = new QLabel();
+upBarValue.setObjectName("upBarValue");
+upBarValue.setText("120 KB/s");
+upBarValue.setInlineStyle("margin-left: 5px;")
+
+upBarRowLayout.addWidget(upBarLabel);
+upBarRowLayout.addWidget(upBarValue);
+
 //Root window style
 const centralWidget = new QWidget();
 centralWidget.setObjectName("myroot");
@@ -119,10 +137,11 @@ async function renderMainWidnow() {
   rootLayout.addWidget(SystemHDRow);
   rootLayout.addWidget(CPUBarRow);
   rootLayout.addWidget(MemBarRow);
+  rootLayout.addWidget(upBarRow)
 
   win.setCentralWidget(centralWidget);
   win.setStyleSheet(firstViewStyle);
-  win.setMinimumSize(320, 640)
+  win.setMinimumSize(320, 450)
   win.show();
 
   global.win = win;
