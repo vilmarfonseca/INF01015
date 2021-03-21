@@ -28,7 +28,7 @@ availableMemLabel.setInlineStyle("margin-right: 5px;")
 
 const availableMemValue = new QLabel();
 availableMemValue.setObjectName("availableMemValue");
-availableMemValue.setText('0 MB');
+availableMemValue.setText('00000 MB');
 availableMemValue.setInlineStyle("margin-left: 5px;")
 
 SystemMemRowLayout.addWidget(availableMemLabel);
@@ -47,7 +47,7 @@ availableHDLabel.setInlineStyle("margin-right: 5px;")
 
 const availableHDValue = new QLabel();
 availableHDValue.setObjectName("availableHDValue");
-availableHDValue.setText("12345 GB");
+availableHDValue.setText("00000 GB");
 availableHDValue.setInlineStyle("margin-left: 5px;")
 
 SystemHDRowLayout.addWidget(availableHDLabel);
@@ -147,12 +147,35 @@ function formatBytes(bytes, decimals = 2) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-async function getPhysMemSize() {
+function getHDTotalSize() {
+  let table = hash.getByName.hrStorageTable.storage[0];
+
+  if(table){
+    let totalSize = 0;
+
+    for (let i = 0; i < table.length; i++) {
+      if (table[i][2].value !== 'Physical memory') {
+        totalSize += table[i][5].value * table[i][3].value
+      }
+    }
+  
+    totalSize = formatBytes(totalSize);
+
+    if(totalSize){
+      return totalSize;
+    }
+  }
+
+}
+
+function getPhysMemSize() {
   let value = hash.getByName.hrMemorySize.storage[0]
 
-  console.log(value, 'valorrr')
+  value = formatBytes(value * 1000);
 
-  return(formatBytes(value*1000));
+  if(value){
+    return value;
+  }
 }
 
 function getLastValuesDifference(array) {
@@ -175,15 +198,17 @@ function renderMainWidnow() {
   win.show();
 
   global.win = win;
-  
+
   setInterval(() => {
     availableMemValue.setText(getPhysMemSize());
+
+    availableHDValue.setText(getHDTotalSize());
 
     let data = hash.getByName.tcpInSegs;
     if (data && data.storage.length > 2) {
       let valueToShow = getLastValuesDifference(data.storage)
 
-      if(valueToShow){
+      if (valueToShow) {
         upBarValue.setText(valueToShow);
       }
     }
