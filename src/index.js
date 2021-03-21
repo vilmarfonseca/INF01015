@@ -9,6 +9,7 @@ import {
 } from '@nodegui/nodegui';
 import { firstViewStyle } from './styles/styleSheet';
 import { hash, startCore } from './core/core';
+const { fork } = require('child_process');
 
 //********* INIT - Declare Main Elements *********
 
@@ -166,10 +167,16 @@ function formatBytes(bytes, decimals = 2) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
+function getCPUData() {
+  let table = hash.getByName.hrSWRunPerfTable;
+
+  // console.log(table)
+}
+
 function getHDTotalSize() {
   let table = hash.getByName.hrStorageTable.storage[0];
 
-  if(table){
+  if (table) {
     let totalSize = 0;
 
     for (let i = 0; i < table.length; i++) {
@@ -177,10 +184,10 @@ function getHDTotalSize() {
         totalSize += table[i][5].value * table[i][3].value
       }
     }
-  
+
     totalSize = formatBytes(totalSize);
 
-    if(totalSize){
+    if (totalSize) {
       return totalSize;
     }
   }
@@ -192,7 +199,7 @@ function getPhysMemSize() {
 
   value = formatBytes(value * 1000);
 
-  if(value){
+  if (value) {
     return value;
   }
 }
@@ -220,9 +227,15 @@ function renderMainWidnow() {
   global.win = win;
 
   setInterval(() => {
+
+    child.send('START')
+
+
     availableMemValue.setText(getPhysMemSize());
 
     availableHDValue.setText(getHDTotalSize());
+
+    getCPUData();
 
     let data = hash.getByName.tcpInSegs;
     if (data && data.storage.length > 2) {
@@ -233,11 +246,16 @@ function renderMainWidnow() {
       }
     }
 
-  }, 100);
-
+  }, 3000)
 }
 
 //********* END - Declare Main Functions *********
 
-startCore();
 renderMainWidnow();
+
+const child = fork('src/core/core.js');
+
+child.on('message', (message) => {
+  console.log('Returning /total results');
+  console.log(message);
+});
