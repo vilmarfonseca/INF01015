@@ -9,16 +9,16 @@ const table = {
         columns: [1, 2, 3, 4, 5, 6],
         storage: []
     },
-    '1.3.6.1.2.1.25.5.1':{
-        name: 'hrSWRunPerfTable',
-        lastUpdatedAt: '',
-        oid: ['1.3.6.1.2.1.25.5.1'],
-        type: 'table',
-        runInterval: 3000,
-        interval: null,
-        columns: [1, 2],
-        storage: []
-    },
+    // '1.3.6.1.2.1.25.5.1':{
+    //     name: 'hrSWRunPerfTable',
+    //     lastUpdatedAt: '',
+    //     oid: ['1.3.6.1.2.1.25.5.1'],
+    //     type: 'table',
+    //     runInterval: 3000,
+    //     interval: null,
+    //     columns: [1, 2],
+    //     storage: []
+    // },
     '1.3.6.1.2.1.2.2':{
         name: 'ifTable',
         lastUpdatedAt: '',
@@ -48,15 +48,15 @@ const table = {
         interval: null,
         storage: []
     },
-    '1.3.6.1.2.1.7.4.0': {
-        name: 'udpOutDatagrams',
-        oid: ['1.3.6.1.2.1.7.4.0'],
-        lastUpdatedAt: '',
-        type: 'object',
-        runInterval: 12000,
-        interval: null,
-        storage: []
-    },
+    // '1.3.6.1.2.1.7.4.0': {
+    //     name: 'udpOutDatagrams',
+    //     oid: ['1.3.6.1.2.1.7.4.0'],
+    //     lastUpdatedAt: '',
+    //     type: 'object',
+    //     runInterval: 12000,
+    //     interval: null,
+    //     storage: []
+    // },
     '1.3.6.1.2.1.6.10.0': {
         name: 'tcpInSegs',
         lastUpdatedAt: '',
@@ -75,15 +75,15 @@ const table = {
         interval: null,
         storage: []
     },
-    '1.3.6.1.2.1.4.9.0': {
-        name: 'ipInDelivers',
-        oid: ['1.3.6.1.2.1.4.9.0'],
-        lastUpdatedAt: '',
-        type: 'object',
-        runInterval: 18000,
-        interval: null,
-        storage: []
-    },
+    // '1.3.6.1.2.1.4.9.0': {
+    //     name: 'ipInDelivers',
+    //     oid: ['1.3.6.1.2.1.4.9.0'],
+    //     lastUpdatedAt: '',
+    //     type: 'object',
+    //     runInterval: 18000,
+    //     interval: null,
+    //     storage: []
+    // },
     '1.3.6.1.2.1.4.10.0': {
         name: 'ipOutRequests',
         oid: ['1.3.6.1.2.1.4.10.0'],
