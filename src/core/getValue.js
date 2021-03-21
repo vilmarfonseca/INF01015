@@ -1,5 +1,6 @@
 const snmp = require("net-snmp");
 const i = require('./snmpInitConfig');
+const hash = require('./hashtable');
 
 async function getValue(oids) {
     return new Promise((resolve, reject) => {
@@ -11,7 +12,11 @@ async function getValue(oids) {
                 const values = [];
                 for (var i = 0; i < varbinds.length; i++) {
                     // for version 1 we can assume all OIDs were successful
-                    console.log (varbinds[i].oid + "|" + varbinds[i].value);
+                    // console.log (varbinds[i].oid + "|" + varbinds[i].value);
+
+                    hash.table[varbinds[i].oid].storage.push(varbinds[i].value);
+                    hash.table[varbinds[i].oid].lastUpdatedAt = new Date();
+
 
                     values.push({
                         oid: varbinds[i].oid,
@@ -21,8 +26,9 @@ async function getValue(oids) {
                     // for version 2c we must check each OID for an error condition
                     if (snmp.isVarbindError (varbinds[i]))
                         console.error (snmp.varbindError (varbinds[i]));
-                    else
-                        console.log (varbinds[i].oid + "|" + varbinds[i].value);
+                    else {
+                        // console.log (varbinds[i].oid + "|" + varbinds[i].value);
+                    }
                 }
                 resolve(values);
             }

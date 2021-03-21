@@ -8,7 +8,7 @@ const SNMP_PORT = 161;
 const options = {
     port: SNMP_PORT,
     retries: 1,
-    timeout: 5000,
+    timeout: 20000,
     backoff: 1.0,
     transport: "udp4",
     trapPort: 161,

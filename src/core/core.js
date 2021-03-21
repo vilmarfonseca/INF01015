@@ -2,16 +2,15 @@ const t = require('./getTable');
 const v = require('./getValue');
 const hash = require('./hashtable');
 
-startCore();
-
 async function startCore () {
 
-    // console.log(hash.getByNameValue.hrMemorySize);
-   // const a = await t.getTable(oid)
-   //  console.log(a)
-   //  console.log(hash.getByNameValue.udpInDatagrams.oid)
-    const a = await v.getValue(hash.getByName.udpOutDatagrams.oid)
-    console.log(a)
+    Object.entries(hash.table).forEach(([key, val]) => {
+        if(val.type === 'object'){
+            hash.table[key].interaval = setInterval(async () => {await v.getValue(val.oid)}, val.runInterval)
+        } else {
+
+        }
+    });
 }
 
 module.exports = {

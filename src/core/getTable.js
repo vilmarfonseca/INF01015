@@ -1,7 +1,7 @@
 const i = require('./snmpInitConfig')
 
 const columns = [1, 2, 3, 4, 5 ,6];
-const maxRepetitions = 20;
+const maxRepetitions = 10;
 
 
 function sortInt (a, b) {
