@@ -20,8 +20,10 @@ let firstViewStyle =   `
   margin-bottom: 50px;
 }
 #CPUBarRow {
-  flex-direction: 'row';
+  flex-direction: 'column';
   margin-left: 10px;
+  align-items: 'center';
+  justify-content: 'center';
 }
 #MemBarRow {
   flex-direction: 'row';

@@ -11,6 +11,8 @@ import { firstViewStyle } from './styles/styleSheet';
 import { hash } from './core/core';
 const { Worker } = require('worker_threads');
 
+let totalHDSize = null;
+
 //********* INIT - Declare Main Elements *********
 
 const win = new QMainWindow();
@@ -43,7 +45,7 @@ SystemHDAvailableRow.setLayout(SystemHDAvailableRowLayout);
 
 const availableHDLabel = new QLabel();
 availableHDLabel.setObjectName("availableHDLabel");
-availableHDLabel.setText("Available HD Space: ");
+availableHDLabel.setText("Total HD Space: ");
 availableHDLabel.setInlineStyle("margin-right: 5px;")
 
 const availableHDValue = new QLabel();
@@ -81,18 +83,18 @@ CPUBarRow.setLayout(CPUBarRowLayout);
 
 const CPUBarLabel = new QLabel();
 CPUBarLabel.setObjectName("CPUBarlabel");
-CPUBarLabel.setText("CPU Usage in Last Minute");
+CPUBarLabel.setText("CPU used in Last Minute");
 CPUBarLabel.setInlineStyle("margin-right: 5px;")
 
 const CPUBar = new QProgressBar();
 CPUBar.setMaximum(100)
 CPUBar.setMinimum(0)
-CPUBar.setValue(50)
+CPUBar.setValue(0)
 CPUBar.isVisible(true)
 
 const CPUBarValue = new QLabel();
 CPUBarValue.setObjectName("CPUBarValue");
-CPUBarValue.setText("24 %");
+CPUBarValue.setText("Calculating...");
 CPUBarValue.setInlineStyle("margin-left: 5px;")
 
 CPUBarRowLayout.addWidget(CPUBarLabel);
@@ -319,7 +321,7 @@ function getCPUData() {
     for (let i = 0; i < table[0].length; i++) {
       acc += table[0][i].value;
     }
-    return Math.round(acc / table[0].length);
+    return 100 - Math.round(acc / table[0].length);
   }
 
 }
@@ -365,6 +367,31 @@ function getIPOutData() {
 }
 
 function getHDTotalSize() {
+  let table = hash.getByName.hrStorageTable.storage[0];
+
+  if (table) {
+    let totalSize = 0;
+    let usedSize = 0;
+
+    for (let i = 0; i < table.length; i++) {
+      if (table[i][2].value !== 'Physical memory') {
+        totalSize += table[i][5].value * table[i][3].value
+      }
+      if (table[i][2].value === '/') {
+        usedSize = table[i][4].value * table[i][3].value
+      }
+    }
+
+    totalSize = formatBytes(usedSize);
+
+    if (totalSize) {
+      return totalSize;
+    }
+  }
+
+}
+
+function getHDUsedSize() {
   let table = hash.getByName.hrStorageTable.storage[0];
 
   if (table) {
@@ -423,6 +450,17 @@ function renderMainWidnow() {
 
     if (getHDTotalSize()) {
       availableHDValue.setText(getHDTotalSize());
+    }
+
+    if (getHDUsedSize()) {
+      usedHDValue.setText(getHDUsedSize());
+    }
+
+    if(getCPUData()){
+      CPUBarValue.hide();
+      CPUBar.setValue(getCPUData());
+      CPUBarValue.setText(getCPUData() + ' %')
+      CPUBarValue.show();
     }
 
     if (getDownData()) {
