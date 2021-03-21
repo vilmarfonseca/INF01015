@@ -29,6 +29,16 @@ const user = {
 
 const session = snmp.createV3Session(SNMP_HOST, user, options);
 
+function changeSessionUser(name, level, protocol, authKey, privProtocol, privKey) {
+    user.name = name
+    user.level = level
+    user.authProtocol = protocol
+    user.authKey = authKey
+    user.privProtocol = privProtocol
+    user.privKey = privKey
+}
+
 module.exports = {
-    session
+    session,
+    changeSessionUser
 }
