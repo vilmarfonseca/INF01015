@@ -1,13 +1,14 @@
-import { 
-  QMainWindow, 
-  QWidget, 
-  QLabel, 
-  FlexLayout, 
-  QPushButton, 
+import {
+  QMainWindow,
+  QWidget,
+  QLabel,
+  FlexLayout,
+  QPushButton,
   QProgressBar,
-  QIcon 
+  QIcon
 } from '@nodegui/nodegui';
 import { firstViewStyle } from './styles/styleSheet';
+import { hash, startCore } from './core/core';
 
 //********* INIT - Declare Main Elements *********
 
@@ -27,7 +28,7 @@ availableMemLabel.setInlineStyle("margin-right: 5px;")
 
 const availableMemValue = new QLabel();
 availableMemValue.setObjectName("availableMemValue");
-availableMemValue.setText("167768 MB");
+availableMemValue.setText('0 MB');
 availableMemValue.setInlineStyle("margin-left: 5px;")
 
 SystemMemRowLayout.addWidget(availableMemLabel);
@@ -131,7 +132,36 @@ centralWidget.setLayout(rootLayout);
 
 //********* END - Declare Main Elements *********
 
-async function renderMainWidnow() {
+
+//********* INIT - Declare Main Functions *********
+
+function formatBytes(bytes, decimals = 2) {
+  if (bytes === 0) return '0 Bytes';
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+async function getPhysMemSize() {
+  let value = hash.getByName.hrMemorySize.storage[0]
+
+  console.log(value, 'valorrr')
+
+  return(formatBytes(value*1000));
+}
+
+function getLastValuesDifference(array) {
+  let size = array.length
+
+  return array[size - 1] - array[size - 2];
+}
+
+function renderMainWidnow() {
 
   rootLayout.addWidget(SystemMemRow);
   rootLayout.addWidget(SystemHDRow);
@@ -146,6 +176,23 @@ async function renderMainWidnow() {
 
   global.win = win;
   
+  setInterval(() => {
+    availableMemValue.setText(getPhysMemSize());
+
+    let data = hash.getByName.tcpInSegs;
+    if (data && data.storage.length > 2) {
+      let valueToShow = getLastValuesDifference(data.storage)
+
+      if(valueToShow){
+        upBarValue.setText(valueToShow);
+      }
+    }
+
+  }, 100);
+
 }
 
+//********* END - Declare Main Functions *********
+
+startCore();
 renderMainWidnow();
