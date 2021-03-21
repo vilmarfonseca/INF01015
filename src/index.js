@@ -29,7 +29,7 @@ availableMemLabel.setInlineStyle("margin-right: 5px;")
 
 const availableMemValue = new QLabel();
 availableMemValue.setObjectName("availableMemValue");
-availableMemValue.setText('00000 MB');
+availableMemValue.setText('Calculating...');
 availableMemValue.setInlineStyle("margin-left: 5px;")
 
 SystemMemRowLayout.addWidget(availableMemLabel);
@@ -48,7 +48,7 @@ availableHDLabel.setInlineStyle("margin-right: 5px;")
 
 const availableHDValue = new QLabel();
 availableHDValue.setObjectName("availableHDValue");
-availableHDValue.setText("00000 GB");
+availableHDValue.setText("Calculating...");
 availableHDValue.setInlineStyle("margin-left: 5px;")
 
 SystemHDRowLayout.addWidget(availableHDLabel);
@@ -170,7 +170,9 @@ function formatBytes(bytes, decimals = 2) {
 function getCPUData() {
   let table = hash.getByName.hrSWRunPerfTable;
 
-  // console.log(table)
+  // if(table.storage.length > 1){
+    console.log(table.storage);
+  // }
 }
 
 function getHDTotalSize() {
@@ -186,6 +188,8 @@ function getHDTotalSize() {
     }
 
     totalSize = formatBytes(totalSize);
+
+    console.log(totalSize)
 
     if (totalSize) {
       return totalSize;
@@ -230,10 +234,13 @@ function renderMainWidnow() {
 
     child.send('START')
 
+    if(getPhysMemSize()){
+      availableMemValue.setText(getPhysMemSize());
+    }
 
-    availableMemValue.setText(getPhysMemSize());
-
-    availableHDValue.setText(getHDTotalSize());
+    if(getHDTotalSize()){
+      availableHDValue.setText(getHDTotalSize());
+    }
 
     getCPUData();
 
@@ -246,7 +253,7 @@ function renderMainWidnow() {
       }
     }
 
-  }, 3000)
+  }, 5000)
 }
 
 //********* END - Declare Main Functions *********
@@ -257,5 +264,5 @@ const child = fork('src/core/core.js');
 
 child.on('message', (message) => {
   console.log('Returning /total results');
-  console.log(message);
+  // console.log(message);
 });
