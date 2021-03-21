@@ -261,9 +261,9 @@ function getUpData() {
       return a.id - b.id;
     });
 
-    let speed = reads[reads.length - 1].value - reads[reads.length - 2].value;
+    let speed = reads[reads.length - 1]?.value - reads[reads.length - 2]?.value;
 
-    let timeWindow = reads[reads.length - 1].timestamp - reads[reads.length - 2].timestamp;
+    let timeWindow = reads[reads.length - 1]?.timestamp - reads[reads.length - 2]?.timestamp;
 
     timeWindow = timeWindow / 1000;
 
@@ -298,9 +298,9 @@ function getDownData() {
       return a.id - b.id;
     });
 
-    let speed = reads[reads.length - 1].value - reads[reads.length - 2].value;
+    let speed = reads[reads.length - 1]?.value - reads[reads.length - 2]?.value;
 
-    let timeWindow = reads[reads.length - 1].timestamp - reads[reads.length - 2].timestamp;
+    let timeWindow = reads[reads.length - 1]?.timestamp - reads[reads.length - 2]?.timestamp;
 
     timeWindow = timeWindow / 1000;
 
@@ -433,8 +433,6 @@ function renderMainWidnow() {
       upBarValue.setText(getUpData() + '/s');
     }
 
-    console.log(getCPUData(), 'CPU');
-
     if (getTCPInData()) {
       tcpInValue.setText(getTCPInData());
     }
@@ -447,7 +445,7 @@ function renderMainWidnow() {
       ipInValue.setText(getIPInData());
     }
 
-    if (getTCPOutData()) {
+    if (getIPOutData()) {
       ipOutValue.setText(getIPOutData());
     }
 
