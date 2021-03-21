@@ -4,11 +4,24 @@ let firstViewStyle =   `
   align-items: 'center';
   justify-content: 'center';
 }
-#mylabel {
-  font-size: 16px;
-  font-weight: bold;
-  padding: 1;
-}`;
+#SystemMemRow {
+  flex-direction: 'row';
+  margin-left: 10px;
+}
+#SystemHDRow {
+  flex-direction: 'row';
+  margin-left: 10px;
+  margin-bottom: 100px;
+}
+#CPUBarRow {
+  flex-direction: 'row';
+  margin-left: 10px;
+}
+#MemBarRow {
+  flex-direction: 'row';
+  margin-left: 10px;
+}`
+;
 
 
 module.exports = {
