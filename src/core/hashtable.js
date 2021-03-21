@@ -29,6 +29,16 @@ const table = {
         interval: null,
         storage: []
     },
+    '1.3.6.1.2.1.25.3.3': {
+        name: ' hrProcessorTable',
+        lastUpdatedAt: '',
+        oid: ['1.3.6.1.2.1.25.3.3'],
+        type: 'table',
+        runInterval: 60000,
+        columns: [1, 2],
+        interval: null,
+        storage: []
+    },
     '1.3.6.1.2.1.25.2.2.0': {
         name: 'hrMemorySize',
         oid: ['1.3.6.1.2.1.25.2.2.0'],
@@ -98,6 +108,7 @@ const getByName = {
     hrStorageTable: table['1.3.6.1.2.1.25.2.3'],
     hrMemorySize: table['1.3.6.1.2.1.25.2.2.0'],
     ifTable: table['1.3.6.1.2.1.2.2'],
+    hrProcessorTable: table['1.3.6.1.2.1.25.3.3'],
     udpOutDatagrams: table['1.3.6.1.2.1.7.4.0'],
     tcpInSegs: table['1.3.6.1.2.1.6.10.0'],
     tcpOutSegs: table['1.3.6.1.2.1.6.11.0'],

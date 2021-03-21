@@ -5,6 +5,7 @@ const hash = require('./hashtable');
 startCore();
 
 async function startCore() {
+
     Object.entries(hash.table).forEach(([key, val]) => {
         if (val.type === 'object') {
             setTimeout(() => { v.getValue(val.oid) }, Math.floor((Math.random() * 200) + 1));
