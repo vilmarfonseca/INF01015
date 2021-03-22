@@ -3,7 +3,6 @@ const hash = require('./hashtable');
 
 const maxRepetitions = 20;
 
-
 function sortInt (a, b) {
     if (a > b)
         return 1;
@@ -14,7 +13,6 @@ function sortInt (a, b) {
 }
 
 async function getTable(oid) {
-    // console.log(`LOG - ${new Date().toLocaleTimeString()} [TABLE | ${hash.table[oid[0]].name}] - ${oid[0]}`);
     return new Promise((resolve, reject) => {
         i.session.tableColumns(oid, hash.table[oid[0]].columns, maxRepetitions, function (error, table) {
             if (error) {
